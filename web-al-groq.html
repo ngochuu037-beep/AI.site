@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tool AI ngochuu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060914;--card:rgba(16,22,44,.72);--text:#e6ecff;--muted:#7f8bb0;--c1:#22d3ee;--c2:#8b5cf6;--blue:#1d9bf0;--border:rgba(120,150,255,.22);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);
+ background-image:radial-gradient(600px 400px at 10% -5%,rgba(139,92,246,.28),transparent 60%),radial-gradient(600px 400px at 100% 105%,rgba(34,211,238,.22),transparent 60%),linear-gradient(rgba(120,150,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(120,150,255,.06) 1px,transparent 1px);
+ background-size:auto,auto,32px 32px,32px 32px}
+.app{display:flex;flex-direction:column;height:100%;max-width:780px;margin:0 auto}
+header{padding:14px 16px 10px;display:flex;align-items:center;gap:12px}
+.logo{position:relative;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font:800 15px Orbitron,system-ui,sans-serif;color:#fff;background:#0b1128;isolation:isolate}
+.logo::before{content:"";position:absolute;inset:-2px;border-radius:16px;background:conic-gradient(from 0deg,var(--c1),var(--c2),var(--c1));z-index:-2;animation:spin 4s linear infinite}
+.logo::after{content:"";position:absolute;inset:1px;border-radius:13px;background:#0b1128;z-index:-1}
+@keyframes spin{to{transform:rotate(360deg)}}
+h1{font:800 18px/1.2 Orbitron,system-ui,sans-serif;margin:0;display:flex;align-items:center;gap:6px;letter-spacing:.5px}
+h1 span.g{background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 8px rgba(34,211,238,.45))}
+.tick{width:20px;height:20px;flex:none;filter:drop-shadow(0 0 6px rgba(29,155,240,.8))}
+.sub{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:2px}
+.dot{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399;animation:pulse 1.8s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.new{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:7px 11px;font-size:13px;cursor:pointer;backdrop-filter:blur(8px);transition:.2s}
+.new:hover{border-color:var(--c1);box-shadow:0 0 12px rgba(34,211,238,.35)}
+#new{margin-left:auto}
+.modes{display:flex;gap:8px;padding:0 16px 10px;overflow-x:auto;scrollbar-width:none}
+.modes button{flex:none;border:1px solid var(--border);background:var(--card);color:var(--muted);border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer;backdrop-filter:blur(8px);transition:.2s}
+.modes button.on{color:#fff;border-color:transparent;background:linear-gradient(90deg,var(--c1),var(--c2));box-shadow:0 0 16px rgba(139,92,246,.55)}
+#chat{flex:1;overflow-y:auto;padding:8px 16px;display:flex;flex-direction:column;gap:12px;scrollbar-width:thin}
+.msg{max-width:88%;padding:11px 15px;border-radius:16px;white-space:pre-wrap;word-wrap:break-word;animation:in .25s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.msg.u{align-self:flex-end;color:#fff;background:linear-gradient(135deg,#2563eb,var(--c2));border-bottom-right-radius:4px;box-shadow:0 4px 20px rgba(99,102,241,.4)}
+.msg.b{align-self:flex-start;background:var(--card);border:1px solid var(--border);border-bottom-left-radius:4px;backdrop-filter:blur(10px);box-shadow:0 0 18px rgba(34,211,238,.08)}
+.hello{margin:auto;text-align:center;color:var(--muted);padding:20px}
+.hello h2{margin:0 0 8px;font:800 20px Orbitron,system-ui,sans-serif;color:var(--text)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.chips button{border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:12px;padding:9px 13px;font-size:14px;cursor:pointer;backdrop-filter:blur(8px);transition:.2s}
+.chips button:hover{border-color:var(--c1);box-shadow:0 0 14px rgba(34,211,238,.35);transform:translateY(-1px)}
+form#f{display:flex;flex-direction:column;gap:10px;padding:8px 16px 16px}
+textarea{width:100%;min-height:52px;font-size:16px;resize:none;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:14px;padding:11px 14px;font:inherit;max-height:120px;backdrop-filter:blur(10px)}
+textarea:focus{outline:0;border-color:var(--c1);box-shadow:0 0 0 3px rgba(34,211,238,.2),0 0 18px rgba(34,211,238,.25)}
+#send{padding:13px 20px!important;font-size:16px;border:0;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;border-radius:14px;padding:0 20px;font-weight:700;cursor:pointer;box-shadow:0 0 18px rgba(139,92,246,.55);transition:.2s}
+#send:hover{filter:brightness(1.15)}
+#send:disabled{opacity:.5;box-shadow:none}
+.err{color:#fb7185;font-size:13px;text-align:center;padding:0 16px}
+#gate{position:fixed;inset:0;z-index:99;display:grid;place-items:center;padding:20px;background:rgba(6,9,20,.94);backdrop-filter:blur(14px)}
+#gate.off{display:none}
+.gbox{width:100%;max-width:360px;text-align:center;padding:26px 22px;border:1px solid var(--border);border-radius:20px;background:var(--card);box-shadow:0 0 40px rgba(139,92,246,.3)}
+.gbox .logo{margin:0 auto 14px}
+.gbox h2{margin:0 0 4px;font:800 18px Orbitron,system-ui,sans-serif;display:flex;justify-content:center;align-items:center;gap:6px}
+.gbox p{margin:0 0 16px;color:var(--muted);font-size:14px}
+.gbox input{width:100%;font-size:18px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text);border-radius:12px;padding:12px 14px;font:inherit;text-align:center;letter-spacing:1px}
+.gbox input:focus{outline:0;border-color:var(--c1);box-shadow:0 0 0 3px rgba(34,211,238,.2)}
+.gbox button{width:100%;margin-top:12px;border:0;color:#fff;border-radius:12px;padding:12px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 0 18px rgba(139,92,246,.55)}
+#gerr{color:#fb7185;font-size:13px;min-height:18px;margin-top:10px}
+.shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+</style>
+</head>
+<body>
+<div id="gate"><form class="gbox" id="gf" autocomplete="off">
+<div class="logo">AI</div>
+<h2><span class="g" style="background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent">Tool AI ngochuu</span><svg class="tick" viewBox="0 0 24 24" aria-label="Đã xác minh"><path fill="#1d9bf0" d="M22.5 12.5c0-1.6-.9-2.9-2.2-3.6.5-1.4.2-3-.9-4.1s-2.7-1.4-4.1-.9C14.6 2.6 13.3 1.7 11.9 1.7s-2.7.9-3.4 2.2c-1.4-.5-3-.2-4.1.9s-1.4 2.7-.9 4.1C2.2 9.6 1.3 10.9 1.3 12.5s.9 2.9 2.2 3.6c-.5 1.4-.2 3 .9 4.1s2.7 1.4 4.1.9c.7 1.3 2 2.2 3.4 2.2s2.7-.9 3.4-2.2c1.4.5 3 .2 4.1-.9s1.4-2.7.9-4.1c1.3-.7 2.2-2 2.2-3.6z"/><path fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M7.6 12.6l3 3 5.8-6.2"/></svg></h2>
+<p>Nhập key để vào web</p>
+<input id="gk" type="text" placeholder="Nhập key…" autocapitalize="off" autocorrect="off" spellcheck="false">
+<button type="submit">Vào web</button>
+<div id="gerr"></div></form></div>
+<div class="app">
+  <header>
+    <div class="logo">AI</div>
+    <div><h1><span class="g">Tool AI ngochuu</span><svg class="tick" viewBox="0 0 24 24" aria-label="Đã xác minh"><path fill="#1d9bf0" d="M22.5 12.5c0-1.6-.9-2.9-2.2-3.6.5-1.4.2-3-.9-4.1s-2.7-1.4-4.1-.9C14.6 2.6 13.3 1.7 11.9 1.7s-2.7.9-3.4 2.2c-1.4-.5-3-.2-4.1.9s-1.4 2.7-.9 4.1C2.2 9.6 1.3 10.9 1.3 12.5s.9 2.9 2.2 3.6c-.5 1.4-.2 3 .9 4.1s2.7 1.4 4.1.9c.7 1.3 2 2.2 3.4 2.2s2.7-.9 3.4-2.2c1.4.5 3 .2 4.1-.9s1.4-2.7.9-4.1c1.3-.7 2.2-2 2.2-3.6z"/><path fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M7.6 12.6l3 3 5.8-6.2"/></svg></h1><div class="sub"><span class="dot"></span>Trợ lý AI hỏi đáp &amp; học tập</div></div>
+    <button class="new" id="new" type="button">Cuộc mới</button>
+  </header>
+  <div class="modes" id="modes"></div>
+  <div id="chat"></div>
+  <div class="err" id="err"></div>
+  <form id="f">
+    <textarea id="t" rows="1" placeholder="Nhập câu hỏi của bạn…"></textarea>
+    <button id="send" type="submit">Gửi</button>
+  </form>
+</div>
+<script>
+const WORKER_URL="https://shiny-unit-51d2.lnh2632011.workers.dev";
+const HASH="9d95a2bc2d83448b3a9c32179c576528f45cdd4d79123e995c0408e866278fb2";
+async function sha(x){try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(x));return Array.from(new Uint8Array(b)).map(c=>c.toString(16).padStart(2,"0")).join("")}catch(e){return null}}
+(function(){const g=document.getElementById("gate");
+ (async()=>{try{const p=localStorage.getItem("al_pk");if(p&&(await sha(p))===HASH){g.classList.add("off")}}catch(e){}})();
+ document.getElementById("gf").onsubmit=async e=>{e.preventDefault();const v=document.getElementById("gk").value.trim();const hh=await sha(v);
+  if(hh===HASH){try{localStorage.setItem("al_pk",v)}catch(e){}g.classList.add("off")}
+  else{const b=document.querySelector(".gbox");document.getElementById("gerr").textContent="Key không đúng, thử lại nhé.";b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake")}};
+})();
+const MODES={
+ chat:{n:"Hỏi đáp",p:"Trả lời mọi câu hỏi rõ ràng, chính xác, ngắn gọn."},
+ explain:{n:"Giải thích dễ hiểu",p:"Giải thích như cho học sinh: bắt đầu từ ý chính, dùng ví dụ đời thường, chia từng bước."},
+ solve:{n:"Giải bài tập",p:"Giải bài từng bước, nêu công thức dùng, kiểm tra lại kết quả cuối cùng."},
+ quiz:{n:"Luyện tập",p:"Đóng vai giáo viên: ra từng câu hỏi trắc nghiệm hoặc tự luận về chủ đề người dùng chọn, chờ họ trả lời rồi chấm và giải thích."}
+};
+const SYS="Bạn là Tool AI ngochuu, trợ lý AI học tập thân thiện, trả lời bằng tiếng Việt (trừ khi người dùng dùng ngôn ngữ khác). Không dùng định dạng markdown nặng, viết thuần văn bản dễ đọc. Nếu không chắc, hãy nói rõ. ";
+let mode="chat",hist=[],busy=false;
+const $=id=>document.getElementById(id),chat=$("chat"),t=$("t"),err=$("err");
+function modes(){const m=$("modes");m.innerHTML="";for(const k in MODES){const b=document.createElement("button");b.type="button";b.textContent=MODES[k].n;if(k===mode)b.className="on";b.onclick=()=>{mode=k;modes()};m.appendChild(b)}}
+function hello(){chat.innerHTML="";const d=document.createElement("div");d.className="hello";d.innerHTML="<h2>Xin chào, mình là Tool AI ngochuu</h2><div>Hỏi mình bất cứ điều gì hoặc nhờ mình giúp học bài.</div><div class='chips'></div>";
+ ["Giải thích quang hợp là gì","Giải phương trình x² − 5x + 6 = 0","Ra 3 câu trắc nghiệm lịch sử Việt Nam","Cách học từ vựng tiếng Anh hiệu quả"].forEach(s=>{const b=document.createElement("button");b.type="button";b.textContent=s;b.onclick=()=>{t.value=s;send()};d.querySelector(".chips").appendChild(b)});chat.appendChild(d)}
+function add(cls,txt){const d=document.createElement("div");d.className="msg "+cls;d.textContent=txt;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d}
+async function send(){
+ const q=t.value.trim();if(!q||busy)return;err.textContent="";
+ if(WORKER_URL.indexOf("TEN-WORKER")>-1){err.textContent="Chưa cài địa chỉ máy chủ (WORKER_URL) trong code.";return}
+ if(!hist.length)chat.innerHTML="";
+ busy=true;$("send").disabled=true;t.value="";t.style.height="auto";
+ hist.push({role:"user",content:q});add("u",q);const out=add("b","…");
+ try{
+  const r=await fetch(WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({key:localStorage.getItem("al_pk")||"",system:SYS+MODES[mode].p,messages:hist.slice(-14)})});
+  const j=await r.json().catch(()=>({}));
+  if(r.status===401){localStorage.removeItem("al_pk");throw new Error("Key không đúng, tải lại trang và nhập lại.")}
+  if(!r.ok)throw new Error(j.error||("Lỗi "+r.status));
+  const text=j.text||"(Không có câu trả lời)";
+  out.textContent=text;hist.push({role:"assistant",content:text});
+ }catch(e){out.remove();hist.pop();err.textContent="Lỗi: "+e.message}
+ busy=false;$("send").disabled=false;t.focus();
+}
+$("f").onsubmit=e=>{e.preventDefault();send()};
+t.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
+t.addEventListener("input",()=>{t.style.height="auto";t.style.height=Math.min(t.scrollHeight,120)+"px"});
+$("new").onclick=()=>{if(busy)return;hist=[];err.textContent="";hello()};
+modes();hello();
+</script>
+</body>
+</html>
